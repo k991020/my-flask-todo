@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flask TODO</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Flask TODO</h1>
+    <div class="topbar">
+  <div class="who">
+    {{ session.get("username") }} 님
+  </div>
+
+  <form method="post" action="/logout">
+    <button type="submit" class="logout">로그아웃</button>
+  </form>
+</div>
+
+
+    <div class="filters">
+  <button type="button" class="filter-btn" data-filter="all">전체</button>
+  <button type="button" class="filter-btn" data-filter="active">미완료</button>
+  <button type="button" class="filter-btn" data-filter="done">완료</button>
+</div>
+
+
+    <form id="todo-form" class="row">
+      <input id="todo-input" placeholder="할 일을 입력" autocomplete="off" />
+      <button type="submit">추가</button>
+    </form>
+
+    <ul id="todo-list" class="list"></ul>
+
+    <p class="muted">Flask API + fetch로 동작하는 미니앱</p>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

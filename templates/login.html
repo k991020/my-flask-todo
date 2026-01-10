@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>로그인</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>로그인</h1>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" class="auth-form">
+      <input name="username" placeholder="아이디" autocomplete="username" />
+      <input name="password" placeholder="비밀번호" type="password" autocomplete="current-password" />
+      <button type="submit">로그인</button>
+    </form>
+
+    <p class="muted">
+      계정이 없으면 <a href="/signup">회원가입</a>
+    </p>
+  </div>
+</body>
+</html>
