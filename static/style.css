@@ -1,210 +1,217 @@
-.row {
-  display: flex;
-  gap: 8px;
-  margin: 16px 0 20px;
+:root{
+  --bg:#0b0d12;
+  --card:#121623;
+  --line:rgba(255,255,255,.08);
+  --text:#e9eefc;
+  --muted:rgba(233,238,252,.66);
+  --accent:#6d7cff;
+  --accent2:#37d6c2;
+  --danger:#ff5a7a;
 }
 
-.row input {
-  flex: 1;
-  padding: 12px 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  background: radial-gradient(1200px 700px at 20% 0%, rgba(109,124,255,.22), transparent 60%),
+              radial-gradient(1000px 600px at 90% 10%, rgba(55,214,194,.18), transparent 55%),
+              var(--bg);
+  color:var(--text);
 }
 
-.row button {
-  padding: 12px 14px;
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-  background: #222;
-  color: #fff;
+/* Topbar */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 22px;
+  background:rgba(11,13,18,.72);
+  border-bottom:1px solid var(--line);
+  backdrop-filter: blur(10px);
 }
 
-.list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.brand{
+  font-weight:800;
+  letter-spacing:.4px;
 }
 
-.todo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+.right{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.toggle {
-  background: transparent;
-  color: #111;
-  padding: 6px 10px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  cursor: pointer;
+.who{
+  color:var(--muted);
+  font-weight:600;
 }
 
-.done {
+/* Layout */
+.wrap{
+  max-width:900px;
+  margin:32px auto;
+  padding:0 18px;
+}
+
+.card{
+  background: linear-gradient(180deg, rgba(18,22,35,.92), rgba(18,22,35,.78));
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,.45);
+}
+
+.card-head{
+  padding:22px 22px 10px;
+}
+
+.card-head h1{
+  margin:0;
+  font-size:22px;
+}
+
+.sub{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* Filters */
+.filters{
+  display:flex;
+  gap:8px;
+  padding: 0 22px 14px;
+}
+
+.chip{
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  cursor:pointer;
+  font-weight:600;
+  font-size:13px;
+}
+
+.chip.active{
+  border-color: rgba(109,124,255,.65);
+  background: rgba(109,124,255,.15);
+}
+
+/* Composer */
+.composer{
+  display:flex;
+  gap:10px;
+  padding: 0 22px 18px;
+}
+
+#todo-input{
+  flex:1;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  outline:none;
+}
+
+#todo-input:focus{
+  border-color: rgba(109,124,255,.65);
+  box-shadow: 0 0 0 3px rgba(109,124,255,.15);
+}
+
+/* Buttons */
+.btn{
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  cursor:pointer;
+  font-weight:700;
+}
+
+.btn-primary{
+  border-color: rgba(109,124,255,.65);
+  background: linear-gradient(180deg, rgba(109,124,255,.25), rgba(109,124,255,.12));
+}
+
+.btn-ghost{
+  padding:10px 12px;
+}
+
+/* List */
+.list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  border-top:1px solid var(--line);
+}
+
+.todo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+}
+
+.left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+
+.toggle{
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  cursor:pointer;
+}
+
+.todo span{
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:520px;
+}
+
+.done{
   text-decoration: line-through;
-  opacity: 0.6;
+  opacity:.65;
 }
 
-.muted {
-  margin-top: 16px;
-  color: #777;
-  font-size: 13px;
-}
-const listEl = document.getElementById("todo-list");
-const formEl = document.getElementById("todo-form");
-const inputEl = document.getElementById("todo-input");
-const filterBtns = document.querySelectorAll(".filter-btn");
-
-let currentFilter = "all";
-
-async function fetchTodos() {
-  const res = await fetch(`/api/todos?filter=${currentFilter}`);
-  const todos = await res.json();
-  render(todos);
+.delete{
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid rgba(255,90,122,.5);
+  background: rgba(255,90,122,.12);
+  color: var(--text);
+  cursor:pointer;
+  font-weight:700;
 }
 
-function setActiveFilterUI() {
-  filterBtns.forEach((b) => {
-    b.classList.toggle("active", b.dataset.filter === currentFilter);
-  });
+.foot{
+  padding:14px 22px;
 }
 
-function render(todos) {
-  listEl.innerHTML = "";
-
-  for (const t of todos) {
-    const li = document.createElement("li");
-    li.className = "todo";
-
-    const left = document.createElement("div");
-    left.className = "left";
-
-    const toggleBtn = document.createElement("button");
-    toggleBtn.type = "button";
-    toggleBtn.className = "toggle";
-    toggleBtn.textContent = t.done ? "✅" : "⬜";
-    toggleBtn.addEventListener("click", async () => {
-      await toggleTodo(t.id);
-      await fetchTodos();
-    });
-
-    const span = document.createElement("span");
-    span.textContent = t.title;
-    span.className = t.done ? "done" : "";
-
-    left.appendChild(toggleBtn);
-    left.appendChild(span);
-
-    const delBtn = document.createElement("button");
-    delBtn.type = "button";
-    delBtn.className = "delete";
-    delBtn.textContent = "삭제";
-    delBtn.addEventListener("click", async () => {
-      const ok = confirm("삭제할까?");
-      if (!ok) return;
-      await deleteTodo(t.id);
-      await fetchTodos();
-    });
-
-    li.appendChild(left);
-    li.appendChild(delBtn);
-    listEl.appendChild(li);
-  }
+.muted{
+  color:var(--muted);
+  font-size:13px;
 }
 
-async function addTodo(title) {
-  const res = await fetch("/api/todos", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title }),
-  });
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    alert(err.error || "추가 실패");
-    return;
-  }
-
-  inputEl.value = "";
-  await fetchTodos();
-}
-
-async function toggleTodo(id) {
-  const res = await fetch(`/api/todos/${id}`, { method: "PATCH" });
-  if (!res.ok) alert("토글 실패");
-}
-
-async function deleteTodo(id) {
-  const res = await fetch(`/api/todos/${id}`, { method: "DELETE" });
-  if (!res.ok) alert("삭제 실패");
-}
-
-formEl.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const title = inputEl.value.trim();
-  if (!title) return;
-  addTodo(title);
-});
-
-filterBtns.forEach((b) => {
-  b.addEventListener("click", async () => {
-    currentFilter = b.dataset.filter;
-    setActiveFilterUI();
-    await fetchTodos();
-  });
-});
-
-setActiveFilterUI();
-fetchTodos();
-
-.error {
-  margin: 10px 0;
-  padding: 10px 12px;
-  border: 1px solid #f1b4b4;
-  background: #fff5f5;
-  border-radius: 10px;
-}
-.auth-form {
-  display: grid;
-  gap: 10px;
-  margin: 16px 0 10px;
-}
-
-.auth-form input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-}
-
-.auth-form button {
-  padding: 12px 14px;
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-  background: #222;
-  color: #fff;
-}
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 10px 0 14px;
-}
-
-.who {
-  color: #444;
-  font-weight: 600;
-}
-
-.logout {
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  background: #fff;
-  border-radius: 10px;
-  cursor: pointer;
+/* Responsive */
+@media (max-width: 560px){
+  .todo span{ max-width: 220px; }
+  .right .who{ display:none; }
 }

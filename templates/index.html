@@ -7,35 +7,42 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div class="container">
-    <h1>Flask TODO</h1>
-    <div class="topbar">
-  <div class="who">
-    {{ session.get("username") }} 님
-  </div>
+  <header class="topbar">
+    <div class="brand">Flask TODO</div>
 
-  <form method="post" action="/logout">
-    <button type="submit" class="logout">로그아웃</button>
-  </form>
-</div>
+    <div class="right">
+      <div class="who">{{ session.get("username") }} 님</div>
+      <form method="post" action="/logout">
+        <button class="btn btn-ghost" type="submit">로그아웃</button>
+      </form>
+    </div>
+  </header>
 
+  <main class="wrap">
+    <section class="card">
+      <div class="card-head">
+        <h1>오늘 할 일</h1>
+        <p class="sub">가볍게 적고, 바로 처리한다.</p>
+      </div>
 
-    <div class="filters">
-  <button type="button" class="filter-btn" data-filter="all">전체</button>
-  <button type="button" class="filter-btn" data-filter="active">미완료</button>
-  <button type="button" class="filter-btn" data-filter="done">완료</button>
-</div>
+      <div class="filters">
+        <button type="button" class="chip filter-btn active" data-filter="all">전체</button>
+        <button type="button" class="chip filter-btn" data-filter="active">미완료</button>
+        <button type="button" class="chip filter-btn" data-filter="done">완료</button>
+      </div>
 
+      <form id="todo-form" class="composer">
+        <input id="todo-input" placeholder="할 일을 입력 (Enter로 추가)" autocomplete="off" />
+        <button class="btn btn-primary" type="submit">추가</button>
+      </form>
 
-    <form id="todo-form" class="row">
-      <input id="todo-input" placeholder="할 일을 입력" autocomplete="off" />
-      <button type="submit">추가</button>
-    </form>
+      <ul id="todo-list" class="list"></ul>
 
-    <ul id="todo-list" class="list"></ul>
-
-    <p class="muted">Flask API + fetch로 동작하는 미니앱</p>
-  </div>
+      <div class="foot">
+        <span class="muted">Flask + fetch + SQLite</span>
+      </div>
+    </section>
+  </main>
 
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
