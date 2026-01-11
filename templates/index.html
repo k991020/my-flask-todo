@@ -3,46 +3,100 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Flask TODO</title>
+  <title>TODO 설정</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">Flask TODO</div>
-
-    <div class="right">
-      <div class="who">{{ session.get("username") }} 님</div>
-      <form method="post" action="/logout">
-        <button class="btn btn-ghost" type="submit">로그아웃</button>
-      </form>
-    </div>
-  </header>
-
-  <main class="wrap">
-    <section class="card">
-      <div class="card-head">
-        <h1>오늘 할 일</h1>
-        <p class="sub">가볍게 적고, 바로 처리한다.</p>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sb-top">
+        <div class="sb-title">설정</div>
       </div>
 
-      <div class="filters">
-        <button type="button" class="chip filter-btn active" data-filter="all">전체</button>
-        <button type="button" class="chip filter-btn" data-filter="active">미완료</button>
-        <button type="button" class="chip filter-btn" data-filter="done">완료</button>
+      <div class="sb-user">
+        <div class="avatar">{{ (session.get("username") or "U")[:1].upper() }}</div>
+        <div class="sb-user-meta">
+          <div class="sb-user-name">{{ session.get("username") }} 님</div>
+          <form method="post" action="/logout">
+            <button class="link-btn" type="submit">로그아웃</button>
+          </form>
+        </div>
       </div>
 
-      <form id="todo-form" class="composer">
-        <input id="todo-input" placeholder="할 일을 입력 (Enter로 추가)" autocomplete="off" />
-        <button class="btn btn-primary" type="submit">추가</button>
-      </form>
+      <nav class="sb-nav">
+        <button type="button" class="sb-item active">
+          <span class="dot"></span>
+          TODO
+        </button>
+        <button type="button" class="sb-item" disabled>
+          <span class="dot"></span>
+          알림 (준비중)
+        </button>
+        <button type="button" class="sb-item" disabled>
+          <span class="dot"></span>
+          계정 (준비중)
+        </button>
+      </nav>
 
-      <ul id="todo-list" class="list"></ul>
-
-      <div class="foot">
-        <span class="muted">Flask + fetch + SQLite</span>
+      <div class="sb-foot muted">
+        Render 배포 데모
       </div>
-    </section>
-  </main>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="main-head">
+        <div>
+          <h1>TODO</h1>
+          <p class="sub">macOS 설정앱처럼, 단정한 작업 흐름.</p>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="filter">
+          <button type="button" class="seg filter-btn active" data-filter="all">전체</button>
+          <button type="button" class="seg filter-btn" data-filter="active">미완료</button>
+          <button type="button" class="seg filter-btn" data-filter="done">완료</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-row">
+          <div class="panel-label">
+            <div class="label-title">새 항목</div>
+            <div class="label-desc">Enter로 빠르게 추가</div>
+          </div>
+
+          <form id="todo-form" class="composer">
+            <input id="todo-input" placeholder="할 일을 입력" autocomplete="off" />
+            <button class="btn btn-blue" type="submit">추가</button>
+          </form>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="panel-row">
+          <div class="panel-label">
+            <div class="label-title">목록</div>
+            <div class="label-desc">클릭해서 완료 처리</div>
+          </div>
+
+          <div class="list-wrap">
+            <ul id="todo-list" class="list"></ul>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="panel-row">
+          <div class="panel-label">
+            <div class="label-title">정보</div>
+            <div class="label-desc">현재 구조</div>
+          </div>
+          <div class="info">Flask · fetch · SQLite</div>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
