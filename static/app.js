@@ -38,7 +38,9 @@ function render(todos) {
     const toggleBtn = document.createElement("button");
     toggleBtn.type = "button";
     toggleBtn.className = "toggle";
-    toggleBtn.textContent = t.done ? "✅" : "⬜";
+    toggleBtn.textContent = t.done ? "✓" : "";
+    toggleBtn.style.color = t.done ? "#34c759" : "#1d1d1f";
+
     toggleBtn.addEventListener("click", async () => {
       await toggleTodo(t.id);
       await fetchTodos();
