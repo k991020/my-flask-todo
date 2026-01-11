@@ -3,26 +3,39 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>로그인</title>
+  <title>회원가입</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div class="container">
-    <h1>로그인</h1>
+  <div class="auth">
+    <div class="auth-card">
+      <div class="auth-head">
+        <div class="auth-title">회원가입</div>
+        <div class="auth-sub">아이디/비밀번호로 새 계정을 만든다.</div>
+      </div>
 
-    {% if error %}
-      <p class="error">{{ error }}</p>
-    {% endif %}
+      {% if error %}
+        <div class="auth-error">{{ error }}</div>
+      {% endif %}
 
-    <form method="post" class="auth-form">
-      <input name="username" placeholder="아이디" autocomplete="username" />
-      <input name="password" placeholder="비밀번호" type="password" autocomplete="current-password" />
-      <button type="submit">로그인</button>
-    </form>
+      <form method="post" class="auth-form">
+        <label class="field">
+          <span>아이디</span>
+          <input name="username" autocomplete="username" placeholder="아이디 (3자+)" />
+        </label>
 
-    <p class="muted">
-      계정이 없으면 <a href="/signup">회원가입</a>
-    </p>
+        <label class="field">
+          <span>비밀번호</span>
+          <input name="password" type="password" autocomplete="new-password" placeholder="비밀번호 (4자+)" />
+        </label>
+
+        <button class="btn btn-blue full" type="submit">가입</button>
+      </form>
+
+      <div class="auth-foot">
+        이미 계정이 있으면 <a class="link" href="/login">로그인</a>
+      </div>
+    </div>
   </div>
 </body>
 </html>
