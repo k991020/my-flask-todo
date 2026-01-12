@@ -69,7 +69,7 @@ def home():
     return render_template("index.html")
 
 
-# ---------- Auth pages ----------
+# ---------- Login ----------
 @app.get("/login")
 def login():
     if "user_id" in session:
@@ -98,7 +98,7 @@ def login_post():
     session["username"] = user["username"]
     return redirect(url_for("home"))
 
-
+# ---------- Signup ----------
 @app.get("/signup")
 def signup():
     if "user_id" in session:
