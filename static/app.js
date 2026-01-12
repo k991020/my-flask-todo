@@ -94,7 +94,17 @@ async function toggleTodo(id) {
 
 async function deleteTodo(id) {
   const res = await fetch(`/api/todos/${id}`, { method: "DELETE" });
-  if (!res.ok) alert("삭제 실패");
+
+  if (res.status === 401) {
+    window.location.href = "/login";
+    return;
+  }
+
+  if (!res.ok) {
+    const body = await res.text();
+    alert(`삭제 실패: ${res.status}\n${body}`);
+    return;
+  }
 }
 
 formEl.addEventListener("submit", (e) => {

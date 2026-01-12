@@ -244,6 +244,28 @@ def signup():
     return render_template("signup.html")
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        with get_conn() as conn:
+            user = conn.execute(
+                "SELECT id, username, password_hash FROM users WHERE username = ?",
+                (username,),
+            ).fetchone()
+
+        if user is None or not check_password_hash(user["password_hash"], password):
+            return render_template("login.html", error="로그인 실패. 정보가 틀렸다.")
+
+        session["user_id"] = user["id"]
+        session["username"] = user["username"]
+        return redirect("/")
+
+    return render_template("login.html")
+
+
 if __name__ == "__main__":
     init_db()
     debug = os.environ.get("FLASK_DEBUG") == "1"
