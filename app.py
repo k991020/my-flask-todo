@@ -225,6 +225,24 @@ def delete_todo(todo_id: int):
 
     return jsonify({"ok": True})
 
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        # 이미 존재하는 아이디 체크
+        if user_exists(username):
+            return render_template(
+                "signup.html",
+                error="이미 존재하는 아이디입니다."
+            )
+
+        create_user(username, password)
+        return redirect("/login")
+
+    return render_template("signup.html")
+
 
 if __name__ == "__main__":
     init_db()
